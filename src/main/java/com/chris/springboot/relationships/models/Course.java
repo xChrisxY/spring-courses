@@ -43,6 +43,7 @@ public class Course {
     public Course(){
         lessons = new ArrayList<>();
         enrollments = new ArrayList<>();
+        audit = new Audit();
     }
 
     public Course(String name, String description, Level level, BigDecimal price) {

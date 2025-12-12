@@ -21,7 +21,7 @@ public class Audit {
     }
 
     @PreUpdate
-    public void preRemove() {
+    public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
 

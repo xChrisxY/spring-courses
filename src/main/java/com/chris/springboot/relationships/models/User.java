@@ -21,7 +21,7 @@ public class User {
     private String passwordHash;
     private Role role;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_profile_id")
     private UserProfile userProfile;
 
@@ -37,9 +37,11 @@ public class User {
     public User(){
         courses = new ArrayList<>();
         enrollments = new ArrayList<>();
+        audit = new Audit();
     }
 
     public User(String username, String email, String passwordHash, Role role){
+        this();
         this.username = username;
         this.email = email;
         this.passwordHash = passwordHash;
@@ -100,6 +102,14 @@ public class User {
 
     public void setEnrollments(List<Enrollment> enrollments) {
         this.enrollments = enrollments;
+    }
+
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
     }
 
     @Override

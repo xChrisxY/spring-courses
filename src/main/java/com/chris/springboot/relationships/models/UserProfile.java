@@ -22,7 +22,7 @@ public class UserProfile {
     @Column(name = "avatar_url")
     private String avatarUrl;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "userProfile")
+    @OneToOne(mappedBy = "userProfile")
     private User user;
 
     public UserProfile(){
@@ -85,6 +85,23 @@ public class UserProfile {
         this.avatarUrl = avatarUrl;
     }
 
+    public User getUser() {
+        return user;
+    }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
 
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", bio='" + bio + '\'' +
+                ", avatarUrl='" + avatarUrl + '\'' +
+                '}';
+    }
 }
