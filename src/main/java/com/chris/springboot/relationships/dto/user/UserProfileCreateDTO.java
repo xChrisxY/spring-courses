@@ -10,6 +10,15 @@ public class UserProfileCreateDTO {
 
     public UserProfileCreateDTO(){}
 
+    public UserProfileCreateDTO(String firstName, String lastName, Integer age, String bio, String avatarUrl) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.bio = bio;
+        this.avatarUrl = avatarUrl;
+    }
+
+
     public String getFirstName() {
         return firstName;
     }

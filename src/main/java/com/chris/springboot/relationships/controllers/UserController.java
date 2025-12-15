@@ -30,15 +30,20 @@ public class UserController {
 
         users.forEach(user -> {
 
+            UserProfileCreateDTO profile = new UserProfileCreateDTO(
+                user.getUserProfile().getFirstName(),
+                user.getUserProfile().getLastName(),
+                user.getUserProfile().getAge(),
+                user.getUserProfile().getBio(),
+                user.getUserProfile().getAvatarUrl()
+            );
+
             responseDTOS.add(
             new UserResponseDTO(
                 user.getUsername(),
                 user.getEmail(),
                 user.getRole(),
-                user.getUserProfile().getFirstName(),
-                user.getUserProfile().getLastName(),
-                user.getUserProfile().getAge(),
-                user.getUserProfile().getAvatarUrl()
+                profile
             ));
 
         });
@@ -66,14 +71,19 @@ public class UserController {
             response.setMessage("User obtained successfully");
             response.setStatus(200);
 
+            UserProfileCreateDTO profile = new UserProfileCreateDTO(
+                    user.getUserProfile().getFirstName(),
+                    user.getUserProfile().getLastName(),
+                    user.getUserProfile().getAge(),
+                    user.getUserProfile().getBio(),
+                    user.getUserProfile().getAvatarUrl()
+            );
+
             UserResponseDTO obtainedUser = new UserResponseDTO(
                     user.getUsername(),
                     user.getEmail(),
                     user.getRole(),
-                    user.getUserProfile().getFirstName(),
-                    user.getUserProfile().getLastName(),
-                    user.getUserProfile().getAge(),
-                    user.getUserProfile().getAvatarUrl()
+                    profile
             );
 
             response.setUser(obtainedUser);
@@ -96,14 +106,19 @@ public class UserController {
 
         User newUser = userService.create(user, profile);
 
+        UserProfileCreateDTO profileDTO = new UserProfileCreateDTO(
+            newUser.getUserProfile().getFirstName(),
+            newUser.getUserProfile().getLastName(),
+            newUser.getUserProfile().getAge(),
+            newUser.getUserProfile().getBio(),
+            newUser.getUserProfile().getAvatarUrl()
+        );
+
         UserResponseDTO createdUser = new UserResponseDTO(
                 newUser.getUsername(),
                 newUser.getEmail(),
                 newUser.getRole(),
-                newUser.getUserProfile().getFirstName(),
-                newUser.getUserProfile().getLastName(),
-                newUser.getUserProfile().getAge(),
-                newUser.getUserProfile().getAvatarUrl()
+                profileDTO
         );
 
         ResponseDTO response = new ResponseDTO(
@@ -122,14 +137,19 @@ public class UserController {
         User user = mapper.userUpdateDTOtoUser(dto);
         User updatedUser = userService.update(id, user);
 
+        UserProfileCreateDTO profileDTO = new UserProfileCreateDTO(
+                updatedUser.getUserProfile().getFirstName(),
+                updatedUser.getUserProfile().getLastName(),
+                updatedUser.getUserProfile().getAge(),
+                updatedUser.getUserProfile().getBio(),
+                updatedUser.getUserProfile().getAvatarUrl()
+        );
+
         UserResponseDTO createdUser = new UserResponseDTO(
                 updatedUser.getUsername(),
                 updatedUser.getEmail(),
                 updatedUser.getRole(),
-                updatedUser.getUserProfile().getFirstName(),
-                updatedUser.getUserProfile().getLastName(),
-                updatedUser.getUserProfile().getAge(),
-                updatedUser.getUserProfile().getAvatarUrl()
+                profileDTO
         );
 
         ResponseDTO response = new ResponseDTO(

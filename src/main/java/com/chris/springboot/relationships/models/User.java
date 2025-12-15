@@ -118,7 +118,6 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
-                ", passwordHash='" + passwordHash + '\'' +
                 ", role=" + role +
                 ", userProfile=" + userProfile +
                 ", created_at=" + audit.getCreatedAt() +

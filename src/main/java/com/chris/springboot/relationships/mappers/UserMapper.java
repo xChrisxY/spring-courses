@@ -2,6 +2,7 @@ package com.chris.springboot.relationships.mappers;
 
 import com.chris.springboot.relationships.dto.user.UserCreateDTO;
 import com.chris.springboot.relationships.dto.user.UserProfileCreateDTO;
+import com.chris.springboot.relationships.dto.user.UserResponseDTO;
 import com.chris.springboot.relationships.dto.user.UserUpdateDTO;
 import com.chris.springboot.relationships.models.User;
 import com.chris.springboot.relationships.models.UserProfile;
@@ -17,4 +18,7 @@ public interface UserMapper {
 
     @Mapping(target = "passwordHash", source = "password")
     User userUpdateDTOtoUser(UserUpdateDTO dto);
+
+    @Mapping(source = "userProfile", target = "profile")
+    UserResponseDTO userToUserResponseDTO(User user);
 }

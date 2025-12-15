@@ -1,26 +1,19 @@
 package com.chris.springboot.relationships.dto.course;
 
+import com.chris.springboot.relationships.dto.user.UserResponseDTO;
 import com.chris.springboot.relationships.enums.Level;
 
 import java.math.BigDecimal;
 
-public class CourseCreateDTO {
+public class CourseDTO {
 
     private String name;
     private String description;
     private Level level;
     private BigDecimal price;
-    private Long professor;
+    private UserResponseDTO professor;
 
-    public CourseCreateDTO(){}
-
-    public CourseCreateDTO(String name, String description, Level level, BigDecimal price, Long professor) {
-        this.name = name;
-        this.description = description;
-        this.level = level;
-        this.price = price;
-        this.professor = professor;
-    }
+    public CourseDTO(){}
 
     public String getName() {
         return name;
@@ -54,11 +47,11 @@ public class CourseCreateDTO {
         this.price = price;
     }
 
-    public Long getProfessor() {
+    public UserResponseDTO getProfessor() {
         return professor;
     }
 
-    public void setProfessor(Long professor) {
+    public void setProfessor(UserResponseDTO professor) {
         this.professor = professor;
     }
 }

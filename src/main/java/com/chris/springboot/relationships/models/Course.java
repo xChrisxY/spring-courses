@@ -92,4 +92,53 @@ public class Course {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+
+    public User getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(User professor) {
+        this.professor = professor;
+    }
+
+    public List<Lesson> getLessons() {
+        return lessons;
+    }
+
+    public void setLessons(List<Lesson> lessons) {
+        this.lessons = lessons;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    public List<Enrollment> getEnrollments() {
+        return enrollments;
+    }
+
+    public void setEnrollments(List<Enrollment> enrollments) {
+        this.enrollments = enrollments;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", level=" + level +
+                ", price=" + price +
+                ", professor=" + professor +
+                ", lessons=" + lessons +
+                ", categories=" + categories +
+                ", enrollments=" + enrollments +
+                ", created_at=" + audit.getCreatedAt() +
+                ", updated_at=" + audit.getUpdatedAt() +
+                '}';
+    }
 }
