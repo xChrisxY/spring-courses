@@ -72,4 +72,23 @@ public class Lesson {
     public void setPosition(Integer position) {
         this.position = position;
     }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", videoUrl='" + videoUrl + '\'' +
+                ", durationMinutes=" + durationMinutes +
+                ", position=" + position +
+                '}';
+    }
 }

@@ -15,6 +15,7 @@ public interface UserMapper {
     @Mapping(target = "passwordHash", source = "password")
     User userCreateDTOToUser(UserCreateDTO dto);
     UserProfile userProfileCreateDTOToUserProfile(UserProfileCreateDTO dto);
+    UserProfileCreateDTO userProfileToUserProfileCreateDTO(UserProfile userProfile);
 
     @Mapping(target = "passwordHash", source = "password")
     User userUpdateDTOtoUser(UserUpdateDTO dto);
