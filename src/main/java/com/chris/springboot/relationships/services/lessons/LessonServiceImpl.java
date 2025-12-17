@@ -43,9 +43,8 @@ public class LessonServiceImpl implements ILessonService{
 
     @Override
     @Transactional
-    public Lesson update(Lesson lesson, Long lessonId){
+    public Lesson update(Lesson lesson, Long lessonId, Long courseId){
 
-        Long courseId = lesson.getCourse().getId();
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new CourseNotFoundException("Curso no encontrado: " + courseId));
 
@@ -59,5 +58,16 @@ public class LessonServiceImpl implements ILessonService{
         existingLesson.setCourse(course);
 
         return lessonRepository.save(existingLesson);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long lessonId){
+
+        Lesson existingLesson = lessonRepository.findById(lessonId).
+                orElseThrow(() -> new LessonNotFoundException("La clase no ha sido encontrada: " + lessonId));
+
+        lessonRepository.delete(existingLesson);
+
     }
 }

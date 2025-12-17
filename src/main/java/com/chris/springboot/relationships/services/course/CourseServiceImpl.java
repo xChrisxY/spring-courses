@@ -6,8 +6,10 @@ import com.chris.springboot.relationships.exceptions.UserNotFoundException;
 import com.chris.springboot.relationships.exceptions.UserNotTeacherException;
 import com.chris.springboot.relationships.exceptions.course.CourseNotFoundException;
 import com.chris.springboot.relationships.models.Course;
+import com.chris.springboot.relationships.models.Lesson;
 import com.chris.springboot.relationships.models.User;
 import com.chris.springboot.relationships.repositories.CourseRepository;
+import com.chris.springboot.relationships.repositories.LessonRepository;
 import com.chris.springboot.relationships.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +22,12 @@ public class CourseServiceImpl implements ICourseService{
 
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
+    private final LessonRepository lessonRepository;
 
-    public CourseServiceImpl(CourseRepository courseRepository, UserRepository userRepository){
+    public CourseServiceImpl(CourseRepository courseRepository, UserRepository userRepository, LessonRepository lessonRepository){
         this.courseRepository = courseRepository;
         this.userRepository = userRepository;
+        this.lessonRepository = lessonRepository;
     }
 
     @Override
@@ -84,11 +88,22 @@ public class CourseServiceImpl implements ICourseService{
     }
 
     @Override
+    @Transactional
     public void delete(Long id){
 
         Course course = findById(id).
                 orElseThrow(() -> new CourseNotFoundException("Curso no encontrado: " + id));
 
         courseRepository.delete(course);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Lesson> getLessonsByCourse(Long courseId){
+
+        Course course = findById(courseId)
+                .orElseThrow(() -> new CourseNotFoundException("Curso no encontrado: " + courseId));
+
+        return lessonRepository.findByCourseId(courseId);
     }
 }

@@ -58,4 +58,22 @@ public class Category {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", slug='" + slug + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

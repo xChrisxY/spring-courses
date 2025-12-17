@@ -9,5 +9,6 @@ public interface ILessonService {
 
     Lesson create(Lesson lesson, Long courseId);
     Optional<Lesson> findById(Long id);
-    Lesson update(Lesson lesson, Long lessonId);
+    Lesson update(Lesson lesson, Long lessonId, Long courseId);
+    void delete(Long lessonId);
 }

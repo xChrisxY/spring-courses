@@ -73,7 +73,9 @@ public class LessonController {
     public ResponseEntity<ApiResponse<LessonResponseDTO>> update(@PathVariable Long lessonId, @RequestBody LessonDTO dto){
 
         Lesson lessonData = mapper.lessonDTOToLesson(dto);
-        Lesson updatedLesson = lessonService.update(lessonData, lessonId);
+        Long courseId = dto.getCourse();
+
+        Lesson updatedLesson = lessonService.update(lessonData, lessonId, courseId);
 
         LessonResponseDTO lessonResponseDTO = mapper.lessonToLessonResponseDTO(updatedLesson);
 
@@ -85,6 +87,14 @@ public class LessonController {
         );
 
         return ResponseEntity.status(HttpStatus.OK.value()).body(response);
+    }
+
+    @DeleteMapping("/{lessonId}")
+    public ResponseEntity<Void> delete(@PathVariable Long lessonId){
+
+        lessonService.delete(lessonId);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
     }
 
 }

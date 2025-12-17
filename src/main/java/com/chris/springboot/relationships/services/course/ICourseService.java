@@ -1,6 +1,7 @@
 package com.chris.springboot.relationships.services.course;
 
 import com.chris.springboot.relationships.models.Course;
+import com.chris.springboot.relationships.models.Lesson;
 import com.chris.springboot.relationships.models.User;
 
 import java.util.List;
@@ -14,4 +15,5 @@ public interface ICourseService {
     Course update(Course course, Long courseId, Long professorId);
     User validateProfessorRol(Long professorId);
     void delete(Long id);
+    List<Lesson> getLessonsByCourse(Long courseId);
 }
