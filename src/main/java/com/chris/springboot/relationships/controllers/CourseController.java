@@ -1,12 +1,16 @@
 package com.chris.springboot.relationships.controllers;
 
 import com.chris.springboot.relationships.dto.ApiResponse;
+import com.chris.springboot.relationships.dto.category.CategoryDTO;
+import com.chris.springboot.relationships.dto.course.CourseCategoryDTO;
 import com.chris.springboot.relationships.dto.course.CourseCreateDTO;
 import com.chris.springboot.relationships.dto.course.CourseDTO;
 import com.chris.springboot.relationships.dto.lesson.LessonDTO;
 import com.chris.springboot.relationships.dto.lesson.LessonResponseDTO;
+import com.chris.springboot.relationships.mappers.CategoryMapper;
 import com.chris.springboot.relationships.mappers.CourseMapper;
 import com.chris.springboot.relationships.mappers.LessonMapper;
+import com.chris.springboot.relationships.models.Category;
 import com.chris.springboot.relationships.models.Course;
 import com.chris.springboot.relationships.models.Lesson;
 import com.chris.springboot.relationships.services.course.ICourseService;
@@ -29,6 +33,9 @@ public class CourseController {
 
     @Autowired
     private LessonMapper lessonMapper;
+
+    @Autowired
+    private CategoryMapper categoryMapper;
 
     @PostMapping("/")
     public ResponseEntity<ApiResponse<CourseDTO>> create(@RequestBody CourseCreateDTO dto){
@@ -146,6 +153,47 @@ public class CourseController {
         );
 
         return ResponseEntity.status(HttpStatus.OK.value()).body(response);
+
+    }
+
+    @GetMapping("/{courseId}/categories")
+    public ResponseEntity<ApiResponse<CourseCategoryDTO>> listCategories(@PathVariable Long courseId){
+
+        Course course = courseService.getCourseWithCategories(courseId);
+        CourseCategoryDTO courseCategoryDTO = courseMapper.courseToCourseCategoryDTO(course);
+
+        ApiResponse<CourseCategoryDTO> response = new ApiResponse<>(
+                true,
+                "Categorias por curso obtenidas exitosamente",
+                200,
+                courseCategoryDTO
+        );
+
+        return ResponseEntity.status(HttpStatus.OK.value()).body(response);
+
+    }
+
+    @PostMapping("/{courseId}/categories/{categoryId}")
+    public ResponseEntity<ApiResponse<CourseCategoryDTO>> createCategoryByCourseId(@PathVariable Long courseId, @PathVariable Long categoryId){
+
+        Course course = courseService.createCategoryByCourseId(courseId, categoryId);
+        CourseCategoryDTO courseCategoryDTO = courseMapper.courseToCourseCategoryDTO(course);
+
+        ApiResponse<CourseCategoryDTO> response = new ApiResponse<>(
+                true,
+                "Categoria aignada correctamente en el curso: " + courseId,
+                201,
+                courseCategoryDTO
+        );
+
+        return ResponseEntity.status(HttpStatus.CREATED.value()).body(response);
+    }
+
+    @DeleteMapping("/{courseId}/categories/{categoryId}")
+    public ResponseEntity<Void> deleteCategoryByCourseId(@PathVariable Long courseId, @PathVariable Long categoryId){
+
+        courseService.deleteCategoryByCourseId(courseId, categoryId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT.value()).build();
 
     }
 

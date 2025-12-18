@@ -69,4 +69,30 @@ public class Enrollment {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id +
+                ", enrolledAt=" + enrolledAt +
+                ", progress=" + progress +
+                ", status=" + status +
+                '}';
+    }
 }

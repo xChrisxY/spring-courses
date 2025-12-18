@@ -43,14 +43,26 @@ public class Course {
     public Course(){
         lessons = new ArrayList<>();
         enrollments = new ArrayList<>();
+        categories = new ArrayList<>();
         audit = new Audit();
     }
 
     public Course(String name, String description, Level level, BigDecimal price) {
+        this();
         this.name = name;
         this.description = description;
         this.level = level;
         this.price = price;
+    }
+
+    public void addCategory(Category category){
+        this.categories.add(category);
+        category.getCourses().add(this);
+    }
+
+    public void removeCategory(Category category){
+        this.categories.remove(category);
+        category.getCourses().remove(this);
     }
 
     public Long getId() {

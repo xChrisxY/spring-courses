@@ -1,19 +1,23 @@
 package com.chris.springboot.relationships.services.course;
 
-import com.chris.springboot.relationships.enums.Level;
 import com.chris.springboot.relationships.enums.Role;
 import com.chris.springboot.relationships.exceptions.UserNotFoundException;
 import com.chris.springboot.relationships.exceptions.UserNotTeacherException;
+import com.chris.springboot.relationships.exceptions.category.CategoryNotFoundException;
 import com.chris.springboot.relationships.exceptions.course.CourseNotFoundException;
+import com.chris.springboot.relationships.models.Category;
 import com.chris.springboot.relationships.models.Course;
 import com.chris.springboot.relationships.models.Lesson;
 import com.chris.springboot.relationships.models.User;
+import com.chris.springboot.relationships.repositories.CategoryRepository;
 import com.chris.springboot.relationships.repositories.CourseRepository;
 import com.chris.springboot.relationships.repositories.LessonRepository;
 import com.chris.springboot.relationships.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,11 +27,13 @@ public class CourseServiceImpl implements ICourseService{
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
     private final LessonRepository lessonRepository;
+    private final CategoryRepository categoryRepository;
 
-    public CourseServiceImpl(CourseRepository courseRepository, UserRepository userRepository, LessonRepository lessonRepository){
+    public CourseServiceImpl(CourseRepository courseRepository, UserRepository userRepository, LessonRepository lessonRepository, CategoryRepository categoryRepository){
         this.courseRepository = courseRepository;
         this.userRepository = userRepository;
         this.lessonRepository = lessonRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -91,9 +97,7 @@ public class CourseServiceImpl implements ICourseService{
     @Transactional
     public void delete(Long id){
 
-        Course course = findById(id).
-                orElseThrow(() -> new CourseNotFoundException("Curso no encontrado: " + id));
-
+        Course course = validateExistingCourse(id);
         courseRepository.delete(course);
     }
 
@@ -101,9 +105,48 @@ public class CourseServiceImpl implements ICourseService{
     @Transactional(readOnly = true)
     public List<Lesson> getLessonsByCourse(Long courseId){
 
-        Course course = findById(courseId)
-                .orElseThrow(() -> new CourseNotFoundException("Curso no encontrado: " + courseId));
-
+        validateExistingCourse(courseId);
         return lessonRepository.findByCourseId(courseId);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Course getCourseWithCategories(Long courseId){
+
+        return courseRepository.findCategoriesByCourseId(courseId)
+                .orElseThrow(() -> new CourseNotFoundException("Curso no encontrado: " + courseId));
+    }
+
+    @Override
+    @Transactional
+    public Course createCategoryByCourseId(Long courseId, Long categoryId){
+
+        Course course = validateExistingCourse(courseId);
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new CategoryNotFoundException("La categoria no fue encontrada: " + categoryId));
+
+        course.addCategory(category);
+        courseRepository.save(course);
+
+        return getCourseWithCategories(courseId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteCategoryByCourseId(Long courseId, Long categoryId){
+
+        Course course = validateExistingCourse(courseId);
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new CategoryNotFoundException("La categoria no fue encontrada: " + categoryId));
+
+        course.removeCategory(category);
+    }
+
+    @Transactional(readOnly = true)
+    public Course validateExistingCourse(Long courseId){
+
+        return findById(courseId).orElseThrow(() -> new CourseNotFoundException("Curso no encontrado: " + courseId));
+    }
+
+
 }
